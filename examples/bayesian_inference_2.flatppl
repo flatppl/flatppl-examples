@@ -11,7 +11,9 @@ theta2_dist = Exponential(rate = 1.0)
 theta1 = draw(theta1_dist)
 theta2 = draw(theta2_dist)
 
-f_a = functionof(5.0 * _par_, par = _par_)
+c = 5.0
+
+f_a = functionof(c * _par_, par = _par_)
 f_b = fn(abs(_) * _)
 
 # Deterministic transform
