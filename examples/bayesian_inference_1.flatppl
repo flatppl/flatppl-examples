@@ -23,7 +23,7 @@ obs = draw(iid(Normal(mu = a, sigma = b), 10))
 
 # Reify different sub-DAGs prior and forward model kernel
 prior = lawof(record(theta1 = theta1, theta2 = theta2))
-forward_kernel = lawof(record(obs = obs), theta1 = theta1, theta2 = theta2)
+forward_kernel = kernelof(record(obs = obs), theta1 = theta1, theta2 = theta2)
 
 # Observed data
 observed_data = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9]
