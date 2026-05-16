@@ -1,12 +1,18 @@
+# FlatPPL embedded in Julia
+
+using FlatPPL
+
+model = flatppl"""
 a = elementof(nonnegreals)
-b = pow(a, 0.5)
+b = a^0.5
 f_sqrt = functionof(b)
 
 mu = elementof(reals)
-sigma2 = draw(Exponential(1.0))
+sigma2 ~ Exponential(1.0)
 sigma = f_sqrt(sigma2)
 
-x = draw(iid(Normal(mu = mu, sigma = sigma), 3))
+x ~ iid(Normal(mu = mu, sigma = sigma), 3)
 kernel = kernelof(x, mu = mu)
 kernel_input = record(mu = 1.5)
 dist = kernel(kernel_input)
+"""

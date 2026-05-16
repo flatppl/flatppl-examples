@@ -1,3 +1,8 @@
+# FlatPPL embedded in Python
+
+from flatppl import flatppl
+
+model = flatppl(r"""
 a = elementof(nonnegreals)
 b = a^0.5
 f_sqrt = functionof(b)
@@ -7,6 +12,7 @@ sigma2 ~ Exponential(1.0)
 sigma = f_sqrt(sigma2)
 
 x ~ iid(Normal(mu = mu, sigma = sigma), 3)
-kernel = kernelof(x; mu = mu)
-kernel_input = record(;mu = 1.5)
+kernel = kernelof(x, mu = mu)
+kernel_input = record(mu = 1.5)
 dist = kernel(kernel_input)
+""")
