@@ -12,7 +12,7 @@ theta2 ~ theta2_dist
 
 # Deterministic computation
 c = 5
-f_a = (par) -> c * par
+f_a = par -> c * par
 f_b = fn(abs(_) * _)
 a = f_a(theta2)
 b = f_b(theta1, theta2)
