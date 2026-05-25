@@ -11,9 +11,9 @@ theta1 ~ theta1_dist
 theta2 ~ theta2_dist
 
 # Deterministic computation
-c = 5
-f_a = par -> c * par
-f_b = fn(abs(_) * _)
+c = 5                   % Scaling factor
+f_a = par -> c * par    % Scale by c
+f_b = fn(abs(_) * _)    % abs(arg1) * arg2
 a = f_a(theta2)
 b = f_b(theta1, theta2)
 
@@ -29,10 +29,10 @@ forward_kernel, prior = disintegrate(["obs"], joint_model)
 # Observed data
 observed_data = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9]
 
-# Likelihood
+# Likelihood and posterior
+% The likelihood
 L = likelihoodof(forward_kernel, record(obs = observed_data))
-
-# Non-normalized posterior
+% Non-normalized posterior
 posterior = bayesupdate(L, prior)
 
 # Preset points:
