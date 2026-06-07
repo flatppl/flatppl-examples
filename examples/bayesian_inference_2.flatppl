@@ -1,6 +1,6 @@
-# Same semantics as bayesian_inference_1.flatppl, but uses structural
-# disintegration: build the joint model first, then disintegrate into
-# forward model kernel and prior.
+# A simple Bayesian example: two fit parameters with independent priors and a
+# deterministic computation followed by IID normal observations. Joint prior
+# and forward model kernel are defined via explicit reification.
 
 # Prior distributions
 theta1_dist = Normal(0, 1)
@@ -20,11 +20,9 @@ b = f_b(theta1, theta2)
 # IID observations from the forward model
 obs ~ iid(Normal(mu = a, sigma = b), 10)
 
-# Joint distribution over parameters and observations
-joint_model = lawof(record(theta1 = theta1, theta2 = theta2, obs = obs))
-
-# Structural disintegration
-forward_kernel, prior = disintegrate(["obs"], joint_model)
+# Reify different sub-DAGs to prior and forward model kernel
+prior = lawof(record(theta1 = theta1, theta2 = theta2))
+forward_kernel = kernelof(record(obs = obs), theta1 = theta1, theta2 = theta2)
 
 # Observed data
 observed_data = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9]
