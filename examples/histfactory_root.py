@@ -14,10 +14,11 @@ Run:  python histfactory_root.py
 """
 import os
 import sys
+from pathlib import Path
 
 import ROOT
 
-HS3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "histfactory.hs3")
+HS3 = str(Path(__file__).resolve().with_name("histfactory.hs3"))
 
 # Parameters of the model (HS3 `parameter_points: default_values`).
 PARAMS = ["mu", "syst1", "syst2", "syst3", "mcstat_0", "mcstat_1"]

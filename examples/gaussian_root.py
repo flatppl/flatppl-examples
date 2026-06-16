@@ -14,10 +14,11 @@ Run:  python gaussian_root.py
 """
 import os
 import sys
+from pathlib import Path
 
 import ROOT
 
-HS3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gaussian.hs3")
+HS3 = str(Path(__file__).resolve().with_name("gaussian.hs3"))
 
 
 def main() -> None:
