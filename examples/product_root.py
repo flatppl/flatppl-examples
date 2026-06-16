@@ -9,11 +9,11 @@ density. At the default point that closed form gives Sigma logL = -13.9458491571
 over the 10 toy entries; ROOT reports -13.9458508897, agreeing to its numeric
 normalization-integral precision (RooIntegrator1D, ~1e-6).
 
-This is the oracle the sibling ``product.flatppl`` is checked against. Note: the
-``flatppl-js`` engine does not yet score this particular lowering — product_dist
-becomes ``normalize(logweighted(x -> logdensityof(g2, x), g1))`` and the inner
-``functionof`` is not resolved on the likelihood-density path — so ROOT (plus the
-closed form above) is the conformance reference for this example for now.
+This is the oracle the sibling ``product.flatppl`` is checked against: FlatPPL's
+``logdensityof(likelihoodof(iid(prod, 10), toy), theta)`` reproduces the log-
+likelihood. FlatPPL evaluates the Gaussian-product normalizer in closed form, so
+it returns the EXACT analytic value (-13.9458491571); ROOT integrates the
+normalizer numerically (RooIntegrator1D), hence the ~1e-6 difference above.
 
 Requires ROOT >= 6.30 with RooFit JSON support.
 Run:  python product_root.py

@@ -4,8 +4,8 @@ mu2 = elementof(reals)
 sigma2 = elementof(posreals)
 % HS3 product_dist (shared variate) → normalize(logweighted …): pointwise density product
 prod = normalize(logweighted(x -> logdensityof(g2, x), g1))
-g1 = relabel(Normal(mu = mu1, sigma = sigma1), ["x"])
-g2 = relabel(Normal(mu = mu2, sigma = sigma2), ["x"])
+g1 = Normal(mu = mu1, sigma = sigma1)
+g2 = Normal(mu = mu2, sigma = sigma2)
 nuisance_parameters = cartprod(
   mu2 = interval(-5.0, 5.0),
   sigma1 = interval(0.1, 10.0),
@@ -35,4 +35,4 @@ toy = [
   0.18297688463530193,
   1.8448742587493427,
 ]
-likelihood = likelihoodof(prod, toy)
+likelihood = likelihoodof(iid(prod, 10), toy)
