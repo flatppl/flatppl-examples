@@ -1,6 +1,22 @@
-# A simple Bayesian example: two fit parameters with independent priors and a
-# deterministic computation followed by IID normal observations. Prior and
-# likelihood are defined separately.
+%%%
+# Bayesian inference (1 of 4) — independent measure-composition assembly
+
+Two fit parameters with independent priors and a deterministic computation
+feeding ten IID normal observations. The prior and likelihood are built
+**separately**: the prior is an explicit product measure `joint(...)` over
+`elementof` boundary variates, and the forward model is reified with
+`kernelof`, then combined via `bayesupdate(likelihoodof(...), prior)`.
+
+One of a four-model series with identical semantics but different
+posterior-assembly styles — read them together:
+
+- **(1) this file** — `joint(...)` prior + `kernelof` forward model
+  (measure-composition style).
+- (2) explicit reification of `~` stochastic nodes through `lawof` / `kernelof`.
+- (3) build the joint law, then `disintegrate` it into kernel + prior.
+- (4) build the joint law, then `restrict` it to the observed data.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)

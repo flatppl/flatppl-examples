@@ -1,3 +1,14 @@
+%%%
+# Conjugate Poisson–Gamma count model
+
+The textbook conjugate model for count data: a single rate $\lambda$ with a
+`Gamma(shape, rate)` prior, generating $n$ IID Poisson counts
+$y_i \sim \mathrm{Poisson}(\lambda)$. Because the Gamma is conjugate to the
+Poisson likelihood, the posterior is again Gamma in closed form — a compact
+check case for an engine's `bayesupdate`.
+%%%
+flatppl_compat = "0.1"
+
 counts_data = [2, 3, 7, 6, 4]
 n = lengthof(counts_data)
 

@@ -1,5 +1,21 @@
-# Same semantics as bayesian_inference_1.flatppl, but uses measure restriction:
-# build the joint model first, then restrict to observation.
+%%%
+# Bayesian inference (4 of 4) — measure restriction
+
+Same model as `bayesian_inference_1.flatppl`, assembled by building the full
+**joint law** over parameters and observations with `lawof(...)`, then
+conditioning with `restrict(joint_model, record(obs = observed_data))`. The
+same `restrict` also yields the parameter-predictive distribution of the data
+at a fixed parameter point.
+
+One of a four-model series with identical semantics but different
+posterior-assembly styles:
+
+- (1) `joint(...)` prior + `kernelof` forward model (measure-composition style).
+- (2) explicit reification of `~` nodes via `lawof` / `kernelof`.
+- (3) build the joint law, then `disintegrate` into kernel + prior.
+- **(4) this file** — build the joint law, then `restrict` it to the observed data.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)

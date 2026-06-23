@@ -14,6 +14,7 @@ arithmetic at every call site.
 `f(args) = expr` is exactly the lambda binding `f = (args) -> expr`, so it
 introduces no new machinery; the record body is what makes it multi-output.
 %%%
+flatppl_compat = "0.1"
 
 y_data = [1.8, 2.3, 1.1, 2.9, 2.0]
 n = lengthof(y_data)

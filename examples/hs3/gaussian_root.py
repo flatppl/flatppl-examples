@@ -12,6 +12,7 @@ offset), e.g. logL(mu=0) = -1.7253885332.
 Requires ROOT >= 6.30 with RooFit JSON support.
 Run:  python gaussian_root.py
 """
+
 import os
 import sys
 from pathlib import Path
@@ -27,13 +28,13 @@ def main() -> None:
     if not ROOT.RooJSONFactoryWSTool(ws).importJSON(HS3):
         raise SystemExit(f"failed to import {HS3}")
 
-    pdf = ws.pdf("gauss_x")              # RooGaussian(x | mu, sigma)
+    pdf = ws.pdf("gauss_x")  # RooGaussian(x | mu, sigma)
     data = ws.data("obs_gaussian_channel")
-    nll = pdf.createNLL(data)            # single observation x = 1.27
+    nll = pdf.createNLL(data)  # single observation x = 1.27
 
     def logpdf(mu):
         ws.var("mu").setVal(mu)
-        return -nll.getVal()             # log p(x = 1.27 | mu, sigma = 1)
+        return -nll.getVal()  # log p(x = 1.27 | mu, sigma = 1)
 
     for mu in (0.0, 0.5, 1.27):
         print(f"  logL @ mu={mu:<4} = {logpdf(mu):.10f}")

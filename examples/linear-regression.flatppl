@@ -1,3 +1,16 @@
+%%%
+# Bayesian simple linear regression
+
+A straight-line fit $y_i \sim \mathrm{Normal}(\alpha + \beta x_i,\ \sigma)$
+with a conjugate-flavoured prior: an `InverseGamma` on the error variance
+$\sigma^2$, and `Normal` priors on the intercept $\alpha$ and slope $\beta$
+whose widths scale with $\sigma$. The mean line is built by broadcasting the
+affine map over the covariate vector ($\alpha \mathbin{.+} \beta \mathbin{.*}
+x$); the posterior is assembled in the `bayesupdate(likelihoodof(kernelof(...)),
+prior)` idiom. Closes with point- and domain-presets for the likelihood.
+%%%
+flatppl_compat = "0.1"
+
 x_data = [1.1, 1.5, 1.3, 1.4]
 y_data = [3.2, 4.1, 3.4, 3.9]
 
