@@ -1,6 +1,13 @@
-# A simple Bayesian example: two fit parameters with independent priors and a
-# deterministic computation followed by IID normal observations. Joint prior
-# and forward model kernel are defined via explicit reification.
+%%%
+# Bayesian inference (2/4): stochastic bindings + explicit reification
+
+Two fit parameters with independent priors and a deterministic computation
+followed by IID Normal observations. Parameters are drawn with `~`; prior
+and forward kernel are reified explicitly with `lawof` and `kernelof`.
+Compare with `bayesian_inference_1.flatppl` (domain declarations + `joint`)
+and variants 3–4 (disintegration and restriction).
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)

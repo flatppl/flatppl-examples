@@ -10,6 +10,7 @@ retained. The reduction need not be `sum`: any reduction (`sum`, `prod`,
 Purely deterministic — no random variables — so it is an illustration of
 the array language, not a probabilistic model.
 %%%
+flatppl_compat = "0.1"
 
 A = rowstack([[1, 3, 5], [9, 5, 1]])
 B = rowstack([[1, 0], [0, 1], [1, 1]])

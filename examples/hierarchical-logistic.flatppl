@@ -10,6 +10,7 @@ $$\eta_i = a_{g_i} + b\,x_i,\qquad p_i = \operatorname{invlogit}(\eta_i),\qquad 
 Ported from a PyMC model. Placeholder data: $G = 3$ groups, $N = 6$
 observations.
 %%%
+flatppl_compat = "0.1"
 
 # --- Data (placeholders) ---
 G = 3

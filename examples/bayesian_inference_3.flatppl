@@ -1,6 +1,12 @@
-# Same semantics as bayesian_inference_1.flatppl, but uses structural
-# disintegration: build the joint model first, then disintegrate into
-# forward model kernel and prior.
+%%%
+# Bayesian inference (3/4): joint law + `disintegrate`
+
+Same semantics as `bayesian_inference_2.flatppl`, expressed via structural
+disintegration: build the joint law over all variables with `lawof`, then
+split it into a forward kernel and prior with `disintegrate(["obs"], ...)`.
+Compare with variant 4 (`restrict`) and variants 1–2.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)
