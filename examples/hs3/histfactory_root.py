@@ -12,6 +12,7 @@ FlatPPL keeps).
 Requires ROOT >= 6.30 with RooFit JSON support (e.g. ``conda install -c conda-forge root``).
 Run:  python histfactory_root.py
 """
+
 import os
 import sys
 from pathlib import Path
@@ -31,8 +32,8 @@ def main() -> None:
     if not ROOT.RooJSONFactoryWSTool(ws).importJSON(HS3):
         raise SystemExit(f"failed to import {HS3}")
 
-    pdf = ws.pdf("model_channel1")          # RooProdPdf: main Poisson * constraints
-    data = ws.data("observed_channel1")     # the binned observation
+    pdf = ws.pdf("model_channel1")  # RooProdPdf: main Poisson * constraints
+    data = ws.data("observed_channel1")  # the binned observation
     # Constraint nominals are global observables (held fixed during evaluation).
     glob = ROOT.RooArgSet(*[ws.var(f"nom_{p}") for p in PARAMS if ws.var(f"nom_{p}")])
     nll = pdf.createNLL(data, ROOT.RooFit.GlobalObservables(glob))
@@ -40,10 +41,10 @@ def main() -> None:
     def logpdf(**point):
         for name, value in point.items():
             ws.var(name).setVal(value)
-        return -nll.getVal()   # log-likelihood (up to a parameter-independent constant)
+        return -nll.getVal()  # log-likelihood (up to a parameter-independent constant)
 
     base = logpdf(**DEFAULT)
-    print(f"ROOT log-likelihood (up to const):")
+    print("ROOT log-likelihood (up to const):")
     print(f"  @ default_values {DEFAULT}")
     print(f"      logL = {base:.10f}")
     pert = dict(DEFAULT, mu=1.5, syst1=0.5, mcstat_0=1.1)

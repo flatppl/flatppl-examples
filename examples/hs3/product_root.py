@@ -18,6 +18,7 @@ normalizer numerically (RooIntegrator1D), hence the ~1e-6 difference above.
 Requires ROOT >= 6.30 with RooFit JSON support.
 Run:  python product_root.py
 """
+
 import os
 import sys
 from pathlib import Path
@@ -36,14 +37,14 @@ def main() -> None:
     if not ROOT.RooJSONFactoryWSTool(ws).importJSON(HS3):
         raise SystemExit(f"failed to import {HS3}")
 
-    pdf = ws.pdf("prod")        # RooProdPdf(g1, g2), normalized over x
-    data = ws.data("toy")       # 10 unbinned entries
+    pdf = ws.pdf("prod")  # RooProdPdf(g1, g2), normalized over x
+    data = ws.data("toy")  # 10 unbinned entries
     nll = pdf.createNLL(data)
 
     def logpdf(**point):
         for name, value in point.items():
             ws.var(name).setVal(value)
-        return -nll.getVal()    # Σ_i log p(x_i | θ)
+        return -nll.getVal()  # Σ_i log p(x_i | θ)
 
     base = logpdf(**DEFAULT)
     print(f"  logL @ default {DEFAULT}")

@@ -1,6 +1,21 @@
-# Same semantics as bayesian_inference_1.flatppl, but uses structural
-# disintegration: build the joint model first, then disintegrate into
-# forward model kernel and prior.
+%%%
+# Bayesian inference (3 of 4) — structural disintegration
+
+Same model as `bayesian_inference_1.flatppl`, assembled by building the full
+**joint law** over parameters and observations with `lawof(...)`, then
+splitting it with `disintegrate(["obs"], joint_model)`, which returns the
+forward kernel and the prior together as a tuple. The likelihood and posterior
+follow exactly as in the other variants.
+
+One of a four-model series with identical semantics but different
+posterior-assembly styles:
+
+- (1) `joint(...)` prior + `kernelof` forward model (measure-composition style).
+- (2) explicit reification of `~` nodes via `lawof` / `kernelof`.
+- **(3) this file** — build the joint law, then `disintegrate` into kernel + prior.
+- (4) build the joint law, then `restrict` it to the observed data.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)

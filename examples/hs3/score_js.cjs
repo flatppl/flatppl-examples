@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 // Score a FlatPPL binding's log-density at a point, using the flatppl-js engine.
 // The JS-engine counterpart to the `*_root.py` oracles in this directory.
 //
@@ -41,13 +41,14 @@
 //   #                       the normalizer numerically, hence the ~1e-6 difference)
 // ---------------------------------------------------------------------------
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 function usage(msg) {
-  if (msg) process.stderr.write('score_js: ' + msg + '\n');
+  if (msg) process.stderr.write("score_js: " + msg + "\n");
   process.stderr.write(
-    'usage: node score_js.cjs <model.flatppl> <binding> <theta> [--engine <dir>] [--count N]\n');
+    "usage: node score_js.cjs <model.flatppl> <binding> <theta> [--engine <dir>] [--count N]\n",
+  );
   process.exit(2);
 }
 
@@ -57,35 +58,57 @@ function parseArgs(argv) {
   let count = 1;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === '--engine') { engineDir = argv[++i]; }
-    else if (a === '--count') { count = parseInt(argv[++i], 10); }
-    else if (a.startsWith('--')) { usage('unknown flag ' + a); }
-    else { pos.push(a); }
+    if (a === "--engine") {
+      engineDir = argv[++i];
+    } else if (a === "--count") {
+      count = parseInt(argv[++i], 10);
+    } else if (a.startsWith("--")) {
+      usage("unknown flag " + a);
+    } else {
+      pos.push(a);
+    }
   }
-  if (pos.length !== 3) usage('expected <model.flatppl> <binding> <theta>');
+  if (pos.length !== 3) usage("expected <model.flatppl> <binding> <theta>");
   return { model: pos[0], binding: pos[1], theta: pos[2], engineDir, count };
 }
 
 function resolveEngine(explicit) {
   const candidates = [
     explicit,
-    process.env.FLATPPL_JS_DIR && path.join(process.env.FLATPPL_JS_DIR, 'packages', 'engine'),
-    path.resolve(__dirname, '..', '..', '..', 'flatppl-js', 'packages', 'engine'),
+    process.env.FLATPPL_JS_DIR &&
+      path.join(process.env.FLATPPL_JS_DIR, "packages", "engine"),
+    path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "flatppl-js",
+      "packages",
+      "engine",
+    ),
   ].filter(Boolean);
   for (const c of candidates) {
-    if (fs.existsSync(path.join(c, 'index.ts'))) return c;
+    if (fs.existsSync(path.join(c, "index.ts"))) return c;
   }
-  usage('flatppl-js engine not found — pass --engine <dir> or set FLATPPL_JS_DIR '
-    + '(looked in: ' + candidates.join(', ') + ')');
+  usage(
+    "flatppl-js engine not found — pass --engine <dir> or set FLATPPL_JS_DIR " +
+      "(looked in: " +
+      candidates.join(", ") +
+      ")",
+  );
 }
 
 async function main() {
-  const { model, binding, theta, engineDir, count } = parseArgs(process.argv.slice(2));
+  const { model, binding, theta, engineDir, count } = parseArgs(
+    process.argv.slice(2),
+  );
   const engine = resolveEngine(engineDir);
-  const { processSource, orchestrator, materialiser } = require(path.join(engine, 'index.ts'));
-  const { createWorkerHandler } = require(path.join(engine, 'worker.ts'));
+  const { processSource, orchestrator, materialiser } = require(
+    path.join(engine, "index.ts"),
+  );
+  const { createWorkerHandler } = require(path.join(engine, "worker.ts"));
 
-  const base = fs.readFileSync(model, 'utf8');
+  const base = fs.readFileSync(model, "utf8");
   const src = base + `\n__score__ = logdensityof(${binding}, ${theta})\n`;
 
   const proc = processSource(src);
@@ -94,12 +117,13 @@ async function main() {
   // domain the engine flags) does not affect the density. If a diagnostic does
   // break the scored binding, materialising it below throws and is reported.
   for (const d of proc.diagnostics || []) {
-    if (d.severity === 'error') process.stderr.write('diagnostic: ' + d.message + '\n');
+    if (d.severity === "error")
+      process.stderr.write("diagnostic: " + d.message + "\n");
   }
 
   const built = orchestrator.buildDerivations(proc.bindings);
   const w = createWorkerHandler();
-  w.handle({ type: 'init', seed: 3 });
+  w.handle({ type: "init", seed: 3 });
   const cache = new Map();
   const ctx = {
     derivations: built.derivations,
@@ -121,15 +145,17 @@ async function main() {
     sendWorker: (m) => Promise.resolve(w.handle(m)),
   };
 
-  const measure = await ctx.getMeasure('__score__');
+  const measure = await ctx.getMeasure("__score__");
   if (!measure || !measure.samples || measure.samples.length === 0) {
-    process.stderr.write('score_js: no density produced for `' + binding + '`\n');
+    process.stderr.write(
+      "score_js: no density produced for `" + binding + "`\n",
+    );
     process.exit(1);
   }
-  process.stdout.write(measure.samples[0] + '\n');
+  process.stdout.write(measure.samples[0] + "\n");
 }
 
 main().catch((e) => {
-  process.stderr.write('score_js: ' + (e && e.message ? e.message : e) + '\n');
+  process.stderr.write("score_js: " + (e && e.message ? e.message : e) + "\n");
   process.exit(1);
 });

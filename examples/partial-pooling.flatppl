@@ -18,6 +18,7 @@ y_i \sim \mathrm{Binomial}(n_i,\ \theta_i).$$
 Placeholder data: $N = 8$ players with deliberately uneven at-bats, so the
 shrinkage differs across players.
 %%%
+flatppl_compat = "0.1"
 
 # --- Data (placeholders) ---
 at_bats_data = [45, 45, 45, 60, 20, 100, 15, 250]

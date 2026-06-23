@@ -1,6 +1,22 @@
-# A simple Bayesian example: two fit parameters with independent priors and a
-# deterministic computation followed by IID normal observations. Joint prior
-# and forward model kernel are defined via explicit reification.
+%%%
+# Bayesian inference (2 of 4) — explicit reification of stochastic nodes
+
+Same model as `bayesian_inference_1.flatppl` (two priors, a deterministic
+computation, ten IID normal observations) but written in the
+**stochastic-node** idiom: each parameter is a `~` draw, and the prior and
+forward kernel are recovered afterwards by explicit reification —
+`lawof(...)` over the parameters and `kernelof(..., theta1 = theta1, ...)`
+over the observations.
+
+One of a four-model series with identical semantics but different
+posterior-assembly styles:
+
+- (1) `joint(...)` prior + `kernelof` forward model (measure-composition style).
+- **(2) this file** — explicit reification of `~` nodes via `lawof` / `kernelof`.
+- (3) build the joint law, then `disintegrate` it into kernel + prior.
+- (4) build the joint law, then `restrict` it to the observed data.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)

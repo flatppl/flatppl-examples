@@ -1,4 +1,18 @@
-# "Eight Schools" model (D. Rubin, 1981)
+%%%
+# Eight-schools model
+
+Rubin (1981)'s hierarchical Normal model for the estimated coaching effects
+of $J = 8$ schools. Each school's observed effect $y_j$ has a known standard
+error $\sigma_j$; the true effects $\theta_j$ are partially pooled around a
+shared mean $\mu$ with between-school scale $\tau$:
+
+$$\theta_j \sim \mathrm{Normal}(\mu,\ \tau),\qquad
+y_j \sim \mathrm{Normal}(\theta_j,\ \sigma_j).$$
+
+The half-Cauchy prior on $\tau$ is written as a renormalised one-sided
+truncation, `normalize(truncate(Cauchy(0, 5), interval(0, inf)))`.
+%%%
+flatppl_compat = "0.1"
 
 y_data = [28, 8, -3, 7, -1, 1, 18, 12]
 std_errs_data = [15, 10, 16, 11, 9, 11, 10, 18]
