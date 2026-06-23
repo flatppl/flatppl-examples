@@ -21,6 +21,7 @@ Identifiability: $\theta_p - b_i$ is unchanged if a constant is added to
 every ability and every difficulty, so the location is fixed only softly,
 by the zero-centred priors on both.
 %%%
+flatppl_compat = "0.1"
 
 # --- Dimensions ---
 P = 4

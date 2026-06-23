@@ -1,3 +1,13 @@
+%%%
+# Bayesian linear regression
+
+Simple normal linear regression with unknown intercept $\alpha$, slope $\beta$,
+and observation noise $\sigma$. The noise scale is inferred via a
+conjugate $\mathrm{InverseGamma}$ prior; the regression coefficients share that
+scale, giving a weakly informative joint prior.
+%%%
+flatppl_compat = "0.1"
+
 x_data = [1.1, 1.5, 1.3, 1.4]
 y_data = [3.2, 4.1, 3.4, 3.9]
 

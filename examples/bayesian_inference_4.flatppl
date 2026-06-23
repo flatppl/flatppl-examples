@@ -1,5 +1,12 @@
-# Same semantics as bayesian_inference_1.flatppl, but uses measure restriction:
-# build the joint model first, then restrict to observation.
+%%%
+# Bayesian inference (4/4): joint law + `restrict`
+
+Same semantics as `bayesian_inference_2.flatppl`, expressed via measure
+restriction: build the joint law over all variables with `lawof`, then
+condition on the observed data with `restrict(joint_model, record(obs = ...))`.
+Compare with variant 3 (`disintegrate`) and variants 1–2.
+%%%
+flatppl_compat = "0.1"
 
 # Prior distributions
 theta1_dist = Normal(0, 1)
