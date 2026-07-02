@@ -2,7 +2,7 @@
 # Poisson GLM with named link and predictor functions
 
 The linear predictor and the inverse log-link are written as **function
-definitions** (spec §05 "Function definition syntax") — sugar for lambdas.
+definitions** (spec §05 "Named functions") — sugar for lambdas.
 Being first-class `functionof` values, they are used in higher-order
 position: `predict` is broadcast over the covariate array with `broadcast`,
 and the inverse-link `rate` is applied elementwise via dot-call (`rate.(…)`).
