@@ -1,7 +1,7 @@
 %%%
 # Multi-output function: Gamma reparameterization
 
-A named **function definition** (spec §05 "Function definition syntax")
+A named **function definition** (spec §05 "Named functions")
 whose body is a record is a *multi-output* function: the record fields
 become the function's outputs.
 
