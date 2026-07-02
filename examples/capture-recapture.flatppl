@@ -11,8 +11,8 @@ R_obs = 5
 rcp_max = M_obs / (C_obs - R_obs + M_obs)
 
 % Probability of recapture
-#rcp ~ Uniform(interval(0, rcp_max))
-rcp ~ normalize(truncate(Beta(1.2, 1.2), interval(0, rcp_max)))
+rcp ~ Uniform(interval(0, rcp_max))
+#rcp ~ normalize(truncate(Beta(1.2, 1.2), interval(0, rcp_max)))
 
 % Recapture stochastic node
 R ~ Binomial(C_obs, rcp)
