@@ -1,13 +1,5 @@
 %%%
 # Signal-plus-background rare-event search (BAT.jl paper example)
-
-Hierarchical counting experiment over 5 detector datasets: a Gaussian signal
-peak (fixed shape) over an exponential background. Full description and the
-side-by-side BAT.jl source are in `README.md`.
-
-Julia's `Exponential(λ)` is scale-parameterised (the BAT example's convention),
-FlatPPL's `Exponential(rate)` is rate-parameterised, so the background mixand is
-`Exponential(1 / lam)`.
 %%%
 flatppl_compat = "0.1"
 
@@ -38,7 +30,7 @@ sigma_B ~ Uniform(interval(0.1, 1.0))        % background-rate log-scale
 m_B     ~ Uniform(interval(1e-10, 20.0))     % background-rate mean (0.1 * (E_max - E_min))
 lam     ~ Uniform(interval(1e-10, 100.0))    % exponential background scale
 
-% Hierarchical per-dataset background rates, chosen so that E[B_i] = m_B.
+# Hierarchical per-dataset background rates, chosen so that E[B_i] = m_B.
 B ~ iid(LogNormal(log(m_B) - sigma_B^2 / 2.0, sigma_B), 5)
 
 prior = lawof(record(S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B))
@@ -69,7 +61,6 @@ E3 ~ iid(normalize(superpose(weighted(w[3], bkg), weighted(1.0 - w[3], sig))), 1
 E4 ~ iid(normalize(superpose(weighted(w[4], bkg), weighted(1.0 - w[4], sig))), 2)
 E5 ~ iid(normalize(superpose(weighted(w[5], bkg), weighted(1.0 - w[5], sig))), 2)
 
-# Posterior: prior x likelihood (per-dataset counts + per-event energies).
 forward_kernel = kernelof(
     record(event_counts = event_counts, E1 = E1, E2 = E2, E3 = E3, E4 = E4, E5 = E5),
     S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B,
