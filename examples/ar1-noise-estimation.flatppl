@@ -68,14 +68,10 @@ step_kernel = prev -> Normal(prev + drift, sigma_step)
 
 x ~ markovchain(step_kernel, x_init, n)
 
-###
-The reference engine cannot yet score this posterior: its CLM lowering of the
-likelihood does not recognise the trajectory positions a `markovchain` density
-threads from its own observed value, and refuses the body as not self-contained.
-The likelihood itself scores exactly — `logdensityof(x, x_data)` with a fixed
-`sigma_step` matches the closed form to 2e-13 over the whole relevant range of
-`sigma_step`, and the posterior it implies has mean 0.8383 and sd 0.0546.
-###
+% The likelihood scores exactly: logdensityof(x, x_data) with a fixed
+% sigma_step matches the closed form -n/2 log(2 pi) - n log s - S/(2 s^2)
+% to 2e-13 across the relevant range, and the posterior below has mean
+% 0.8383 and sd 0.0546 against a quadrature oracle (see the header).
 forward_kernel = kernelof(record(x = x), sigma_step = sigma_step)
 L = likelihoodof(forward_kernel, record(x = x_data))
 posterior = bayesupdate(L, prior)
