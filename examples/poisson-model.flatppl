@@ -17,6 +17,6 @@ y ~ iid(Poisson(lambda), n)
 
 Pi_prior = lawof(record(lambda = lambda))
 
-K_model = kernelof(record(y = y), lambda = lambda) % forward kernel (observation model)
+K_model = kernelof(record(y = y), lambda = lambda) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = counts_data))
 Pi_post = bayesupdate(L, Pi_prior)

@@ -25,10 +25,10 @@ S_mu    = 100.0
 S_sigma = 2.0
 
 # Priors.
-S       ~ Uniform(interval(0.0, 10.0))       % signal strength
-sigma_B ~ Uniform(interval(0.1, 1.0))        % background-rate log-scale
-m_B     ~ Uniform(interval(1e-10, 20.0))     % background-rate mean (0.1 * (E_max - E_min))
-lam     ~ Uniform(interval(1e-10, 100.0))    % exponential background scale
+S       ~ Uniform(interval(0.0, 10.0))       % Signal strength
+sigma_B ~ Uniform(interval(0.1, 1.0))        % Background-rate log-scale
+m_B     ~ Uniform(interval(1e-10, 20.0))     % Background-rate mean (0.1 * (E_max - E_min))
+lam     ~ Uniform(interval(1e-10, 100.0))    % Exponential background scale
 
 # Hierarchical per-dataset background rates, chosen so that E[B_i] = m_B.
 B ~ iid(LogNormal(log(m_B) - sigma_B^2 / 2.0, sigma_B), 5)
@@ -69,7 +69,7 @@ E ~ energy.(nu_B[dataset_of_event], nu_S[dataset_of_event])
 K_model = kernelof(
     record(event_counts = event_counts, E = E),
     S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B,
-) % forward kernel (observation model)
+) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(
     event_counts = counts_data,
     E = E_data,

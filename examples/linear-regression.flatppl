@@ -22,7 +22,7 @@ means = alpha .+ beta .* x_data
 
 y ~ Normal.(means, sigma)
 
-K_model = kernelof(record(y = y), alpha = alpha, beta = beta, sigma = sigma) % forward kernel (observation model)
+K_model = kernelof(record(y = y), alpha = alpha, beta = beta, sigma = sigma) % Forward kernel (observation model)
 
 L = likelihoodof(K_model, record(y = y_data))
 

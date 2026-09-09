@@ -33,6 +33,6 @@ mu  = rate.(eta)
 
 y ~ Poisson.(mu)
 
-K_model = kernelof(record(y = y), intercept = intercept, slope = slope) % forward kernel (observation model)
+K_model = kernelof(record(y = y), intercept = intercept, slope = slope) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = y_data))
 Pi_post = bayesupdate(L, Pi_prior)

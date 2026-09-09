@@ -49,15 +49,15 @@ x_data = [
     42.501826, 42.38132, 42.918669, 43.7028, 43.263506, 43.443864,
 ]
 
-drift  = 0.4    % known per-step drift
-x_init = 0.0    % known initial state, excluded from the trajectory
-n      = 120    % trajectory length
+drift  = 0.4    % Known per-step drift
+x_init = 0.0    % Known initial state, excluded from the trajectory
+n      = 120    % Trajectory length
 
 sigma_step ~ normalize(truncate(Cauchy(0, 1), interval(0, inf)))
 
 Pi_prior = lawof(record(sigma_step = sigma_step))
 
-% One step of the walk: the state enters the mean, the drift is fixed.
+% One step of the walk: the state enters the mean, the drift is fixed
 step_kernel = prev -> Normal(prev + drift, sigma_step)
 
 x ~ markovchain(step_kernel, x_init, n)

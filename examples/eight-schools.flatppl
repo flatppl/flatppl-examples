@@ -21,6 +21,6 @@ Pi_prior = lawof(record(mu = mu, tau = tau, theta = theta))
 
 y ~ Normal.(theta, std_errs_data)
 
-K_model = kernelof(record(y = y), mu = mu, tau = tau, theta = theta) % forward kernel (observation model)
+K_model = kernelof(record(y = y), mu = mu, tau = tau, theta = theta) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = y_data))
 Pi_post = bayesupdate(L, Pi_prior)

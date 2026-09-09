@@ -35,6 +35,6 @@ mixture = normalize(superpose(
 y ~ iid(mixture, N)
 
 Pi_prior = lawof(record(p = p, mu = mu, sigma = sigma, shape = shape, rate = rate))
-K_model = kernelof(record(y = y), p = p, mu = mu, sigma = sigma, shape = shape, rate = rate) % forward kernel (observation model)
+K_model = kernelof(record(y = y), p = p, mu = mu, sigma = sigma, shape = shape, rate = rate) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = y_obs))
 Pi_post = bayesupdate(L, Pi_prior)

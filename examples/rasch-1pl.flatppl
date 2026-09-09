@@ -35,7 +35,7 @@ item   = [1, 2, 3, 4, 5,  1, 2, 3, 4, 5,  1, 2, 3, 4, 5,  1, 2, 3, 4, 5]
 y_data = [true, true, false, false, false, true, true, true, false, false, true, false, true, true, false, true, true, true, true, true]
 
 # --- Priors ---
-% Person abilities and item difficulties, both on the logit scale.
+% Person abilities and item difficulties, both on the logit scale
 theta ~ iid(Normal(0.0, 1.5), P)
 b     ~ iid(Normal(0.0, 1.5), I)
 
@@ -49,6 +49,6 @@ prob = invlogit.(theta[person] .- b[item])
 y ~ Bernoulli.(prob)
 
 # --- Posterior assembly ---
-K_model = kernelof(record(y = y), theta = theta, b = b) % forward kernel (observation model)
+K_model = kernelof(record(y = y), theta = theta, b = b) % Forward kernel (observation model)
 L              = likelihoodof(K_model, record(y = y_data))
 Pi_post      = bayesupdate(L, Pi_prior)

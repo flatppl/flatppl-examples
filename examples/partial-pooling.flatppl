@@ -26,7 +26,7 @@ hits_data    = [12, 15, 10, 18,  8,  29,  6,  71]
 N = 8
 
 # --- Population hyperpriors ---
-% League-wide mean batting rate, on the unit interval.
+% League-wide mean batting rate, on the unit interval
 phi ~ Uniform(interval(0.0, 1.0))
 
 %%%
@@ -49,6 +49,6 @@ Pi_prior = lawof(record(phi = phi, kappa = kappa, theta = theta))
 y ~ Binomial.(at_bats_data, theta)
 
 # --- Posterior assembly ---
-K_model = kernelof(record(y = y), phi = phi, kappa = kappa, theta = theta) % forward kernel (observation model)
+K_model = kernelof(record(y = y), phi = phi, kappa = kappa, theta = theta) % Forward kernel (observation model)
 L              = likelihoodof(K_model, record(y = hits_data))
 Pi_post      = bayesupdate(L, Pi_prior)

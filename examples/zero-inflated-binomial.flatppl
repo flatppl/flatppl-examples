@@ -22,7 +22,7 @@ ZeroInflatedBinomial = superpose(
 y ~ iid(ZeroInflatedBinomial, N)
 
 Pi_prior = lawof(record(p = p, psi = psi))
-K_model = kernelof(record(y = y), p = p, psi = psi) % forward kernel (observation model)
+K_model = kernelof(record(y = y), p = p, psi = psi) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = y_obs))
 
 Pi_post = bayesupdate(L, Pi_prior)

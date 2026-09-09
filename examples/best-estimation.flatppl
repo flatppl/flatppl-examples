@@ -25,11 +25,11 @@ N1 = 8
 N2 = 8
 
 # --- Priors ---
-% Group means: a broad Normal centred on the pooled data scale.
+% Group means: a broad Normal centred on the pooled data scale
 mu1 ~ Normal(100.0, 20.0)
 mu2 ~ Normal(100.0, 20.0)
 
-% Group scales: wide uniform priors (Kruschke's choice), strictly positive.
+% Group scales: wide uniform priors (Kruschke's choice), strictly positive
 sigma1 ~ Uniform(interval(0.1, 20.0))
 sigma2 ~ Uniform(interval(0.1, 20.0))
 
@@ -50,7 +50,7 @@ y2 ~ iid(locscale(StudentT(nu), mu2, sigma2), N2)
 
 # --- Posterior assembly ---
 K_model = kernelof(record(y1 = y1, y2 = y2),
-    mu1 = mu1, mu2 = mu2, sigma1 = sigma1, sigma2 = sigma2, nu = nu) % forward kernel (observation model)
+    mu1 = mu1, mu2 = mu2, sigma1 = sigma1, sigma2 = sigma2, nu = nu) % Forward kernel (observation model)
 L              = likelihoodof(K_model, record(y1 = y1_data, y2 = y2_data))
 Pi_post      = bayesupdate(L, Pi_prior)
 

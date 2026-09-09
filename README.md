@@ -7,6 +7,16 @@ Examples of FlatPPL, the Flat Portable Probabilistic Language.
 FlatPPL is a minimal, inference-agnostic stochastic language for specifying
 probabilistic models.
 
+## Writing examples
+
+Doc-comments render in the viewer and in the math view, so they follow one
+style:
+
+- A one-line `%` doc-comment is a caption shown beside its binding: sentence
+  case, no trailing period — `% Observed data`, `% Forward kernel (observation
+  model)`. A caption that is an expression stays as written.
+- A `%%%` block is prose: full sentences, with capitals and periods.
+
 ## Funding
 
 This work was supported by Germany's Federal Ministry of Research, Technology

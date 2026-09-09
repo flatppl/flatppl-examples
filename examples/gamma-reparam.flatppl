@@ -35,6 +35,6 @@ Pi_prior = lawof(record(mu = mu, sigma = sigma))
 # --- Likelihood ---
 y ~ iid(Normal(mu, sigma), n)
 
-K_model = kernelof(record(y = y), mu = mu, sigma = sigma) % forward kernel (observation model)
+K_model = kernelof(record(y = y), mu = mu, sigma = sigma) % Forward kernel (observation model)
 L = likelihoodof(K_model, record(y = y_data))
 Pi_post = bayesupdate(L, Pi_prior)
