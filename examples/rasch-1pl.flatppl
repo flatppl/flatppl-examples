@@ -39,7 +39,7 @@ y_data = [true, true, false, false, false, true, true, true, false, false, true,
 theta ~ iid(Normal(0.0, 1.5), P)
 b     ~ iid(Normal(0.0, 1.5), I)
 
-prior = lawof(record(theta = theta, b = b))
+Pi_prior = lawof(record(theta = theta, b = b))
 
 # --- Linear predictor and likelihood ---
 # Gather each response's ability and difficulty, take the gap through the
@@ -49,6 +49,6 @@ prob = invlogit.(theta[person] .- b[item])
 y ~ Bernoulli.(prob)
 
 # --- Posterior assembly ---
-forward_kernel = kernelof(record(y = y), theta = theta, b = b)
-L              = likelihoodof(forward_kernel, record(y = y_data))
-posterior      = bayesupdate(L, prior)
+K_model = kernelof(record(y = y), theta = theta, b = b) % forward kernel (observation model)
+L              = likelihoodof(K_model, record(y = y_data))
+Pi_post      = bayesupdate(L, Pi_prior)

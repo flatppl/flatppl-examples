@@ -28,20 +28,20 @@ obs ~ iid(Normal(mu = a, sigma = b), 10)
 joint_model = lawof(record(theta1 = theta1, theta2 = theta2, obs = obs))
 
 # Structural disintegration
-forward_kernel, prior = disintegrate(["obs"], joint_model)
+K_model, Pi_prior = disintegrate(["obs"], joint_model)
 
 # Observed data
-observed_data = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9]
+D = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9] % observed data
 
 # Likelihood and posterior
 % The likelihood
-L = likelihoodof(forward_kernel, record(obs = observed_data))
+L = likelihoodof(K_model, record(obs = D))
 % Non-normalized posterior
-posterior = bayesupdate(L, prior)
+Pi_post = bayesupdate(L, Pi_prior)
 
 # Preset points:
-default_pars = record(theta1 = 0.5,  theta2 = 1.0)
-alternative_pars = record(theta1 = -1.5, theta2 = fixed(0.8))
+theta_default = record(theta1 = 0.5,  theta2 = 1.0) % default parameter point
+theta_alt = record(theta1 = -1.5, theta2 = fixed(0.8)) % alternative parameter point
 
 # Preset domain:
-pars_domain = cartprod(theta1 = interval(-3, 3), theta2 = interval(0, 2))
+Theta = cartprod(theta1 = interval(-3, 3), theta2 = interval(0, 2)) % parameter space

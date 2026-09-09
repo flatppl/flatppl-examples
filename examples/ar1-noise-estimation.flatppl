@@ -55,7 +55,7 @@ n      = 120    % trajectory length
 
 sigma_step ~ normalize(truncate(Cauchy(0, 1), interval(0, inf)))
 
-prior = lawof(record(sigma_step = sigma_step))
+Pi_prior = lawof(record(sigma_step = sigma_step))
 
 % One step of the walk: the state enters the mean, the drift is fixed.
 step_kernel = prev -> Normal(prev + drift, sigma_step)
@@ -68,6 +68,6 @@ sigma_step matches the closed form -n/2 log(2 pi) - n log s - S/(2 s^2)
 to 2e-13 across the relevant range, and the posterior below has mean
 0.8383 and sd 0.0546 against a quadrature oracle (see the header).
 %%%
-forward_kernel = kernelof(record(x = x), sigma_step = sigma_step)
-L = likelihoodof(forward_kernel, record(x = x_data))
-posterior = bayesupdate(L, prior)
+K_model = kernelof(record(x = x), sigma_step = sigma_step)
+L = likelihoodof(K_model, record(x = x_data))
+Pi_post = bayesupdate(L, Pi_prior)

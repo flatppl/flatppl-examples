@@ -28,17 +28,17 @@ obs ~ iid(Normal(mu = a, sigma = b), 10)
 joint_model = lawof(record(theta1 = theta1, theta2 = theta2, obs = obs))
 
 # Observed data
-observed_data = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9]
+D = [1.2, 3.4, 5.1, 2.8, 4.0, 3.7, 5.5, 2.1, 4.3, 3.9] % observed data
 
 # Structural disintegration
-posterior = restrict(joint_model, record(obs = observed_data))
+Pi_post = restrict(joint_model, record(obs = D))
 
-# Distribution of obs data for default_pars
-pars_predictive = restrict(joint_model, default_pars)
+# Distribution of obs data for theta_default
+pars_predictive = restrict(joint_model, theta_default)
 
 # Preset points:
-default_pars = record(theta1 = 0.5,  theta2 = 1.0)
-alternative_pars = record(theta1 = -1.5, theta2 = fixed(0.8))
+theta_default = record(theta1 = 0.5,  theta2 = 1.0) % default parameter point
+theta_alt = record(theta1 = -1.5, theta2 = fixed(0.8)) % alternative parameter point
 
 # Preset domain:
-pars_domain = cartprod(theta1 = interval(-3, 3), theta2 = interval(0, 2))
+Theta = cartprod(theta1 = interval(-3, 3), theta2 = interval(0, 2)) % parameter space

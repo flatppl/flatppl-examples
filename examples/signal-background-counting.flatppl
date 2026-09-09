@@ -33,7 +33,7 @@ lam     ~ Uniform(interval(1e-10, 100.0))    % exponential background scale
 # Hierarchical per-dataset background rates, chosen so that E[B_i] = m_B.
 B ~ iid(LogNormal(log(m_B) - sigma_B^2 / 2.0, sigma_B), 5)
 
-prior = lawof(record(S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B))
+Pi_prior = lawof(record(S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B))
 
 # Expected background and signal yields per dataset.
 nu_B = exposure .* B
@@ -66,12 +66,12 @@ significant digit of the signal weight once $w$ rounds to one.
 energy = (b, s) -> normalize(superpose(weighted(b, bkg), weighted(s, sig)))
 E ~ energy.(nu_B[dataset_of_event], nu_S[dataset_of_event])
 
-forward_kernel = kernelof(
+K_model = kernelof(
     record(event_counts = event_counts, E = E),
     S = S, sigma_B = sigma_B, m_B = m_B, lam = lam, B = B,
-)
-L = likelihoodof(forward_kernel, record(
+) % forward kernel (observation model)
+L = likelihoodof(K_model, record(
     event_counts = counts_data,
     E = E_data,
 ))
-posterior = bayesupdate(L, prior)
+Pi_post = bayesupdate(L, Pi_prior)
