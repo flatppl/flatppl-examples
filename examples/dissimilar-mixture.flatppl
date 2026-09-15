@@ -13,9 +13,9 @@ p ~ Beta(2, 2)
 
 % Mean of Normal mixand
 mu ~ Normal(0, 1)
-sigma2 ~ InverseGamma(2, 2)
+sigma_sq ~ InverseGamma(2, 2)
 % Standard deviation of Normal mixand
-sigma = sqrt(sigma2)
+sigma = sqrt(sigma_sq)
 % Normal mixand
 normal_mixand = Normal(mu, sigma)
 
