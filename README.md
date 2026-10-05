@@ -2,11 +2,6 @@
 
 Examples of FlatPPL, the Flat Portable Probabilistic Language.
 
-## Model comparisons
-
-[Two-level binary HGF](examples/hgf-binary-2level.md) compares a scan-based FlatPPL
-model with the original HierarchicalGaussianFiltering.jl package and an independent score oracle.
-
 ## About FlatPPL
 
 FlatPPL is a minimal, inference-agnostic stochastic language for specifying
