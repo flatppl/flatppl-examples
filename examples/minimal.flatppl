@@ -6,7 +6,7 @@ f_root = functionof(b)
 
 mu = elementof(reals)
 sigma_sq ~ Exponential(1.0)
-sigma = f_root(sigma_sq)
+sigma = f_root(a = sigma_sq)
 
 x ~ iid(Normal(mu = mu, sigma = sigma), 3)
 kernel = kernelof(x, mu = mu)

@@ -1,0 +1,33 @@
+name: Check examples
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the current compiler
+        run: cargo install --git https://github.com/flatppl/flatppl-rust --locked --features stablehlo flatppl-cli
+      - name: Infer every example
+        run: |
+          for model in examples/*.flatppl; do
+            flatppl infer "$model" "$RUNNER_TEMP/example.flatpir"
+          done
+      - name: Compile the predictive density with its shared latent variance
+        run: |
+          cat > examples/minimal-query.flatppl <<'EOF'
+          m = load_module("minimal.flatppl")
+          point = elementof(cartpow(reals, 3))
+          inputs = point
+          outputs = logdensityof(m.dist, point)
+          EOF
+          flatppl stablehlo examples/minimal-query.flatppl --numerical-integrals -o "$RUNNER_TEMP/minimal.mlir"
