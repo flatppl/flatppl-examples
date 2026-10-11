@@ -19,7 +19,7 @@ Additive D is the reference category, $\eta_D = 0$, so `effect` holds
 $\eta_A, \eta_B, \eta_C$. Each additive's counts are one multinomial draw of
 its 52 ratings.
 
-The priors are weakly informative on the logit scale. `rebase` makes the
+The priors are weakly informative on the logit scale. `tilt` makes the
 product of eight $\mathrm{Normal}(0, 5)$ densities a probability law on
 `ordered(8)`, equivalent to sorting eight independent Normal draws.
 Its density includes the normalization factor $8!$. Each additive location
@@ -34,7 +34,7 @@ counts_C = [1, 1, 6, 8, 23, 7, 5, 1, 0]
 counts_D = [0, 0, 0, 1, 3, 7, 14, 16, 11]
 
 % Cut points on the logit scale
-cuts ~ rebase(iid(Normal(0, 5), 8), Lebesgue(ordered(8)))
+cuts ~ tilt(iid(Normal(0, 5), 8), Lebesgue(ordered(8)))
 % Locations of additives A, B and C relative to D
 effect ~ iid(Normal(0, 5), 3)
 

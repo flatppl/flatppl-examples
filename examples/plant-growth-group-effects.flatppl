@@ -16,7 +16,7 @@ three group means and $e_g$ is each group's departure from it.
 
 The priors are weakly informative: $\mu \sim \mathrm{Normal}(5, 2)$ and
 $\sigma \sim \mathrm{Exponential}(1)$. The effects have a shared inferred scale
-$\tau \sim \mathrm{Exponential}(1)$. `rebase` makes the product of three
+$\tau \sim \mathrm{Exponential}(1)$. `tilt` makes the product of three
 $\mathrm{Normal}(0, \tau)$ densities a probability law on `zerosum(3)`.
 Its reference measure is the coordinate measure of $e_1, e_2$, with
 $e_3 = -e_1 - e_2$. The normalizer depends on $\tau$: the log prior contains
@@ -37,7 +37,7 @@ mu ~ Normal(5, 2)
 % Shared scale of the group effects
 effect_scale ~ Exponential(1)
 % Group effects, summing to zero
-effects ~ rebase(iid(Normal(0, effect_scale), 3), Lebesgue(zerosum(3)))
+effects ~ tilt(iid(Normal(0, effect_scale), 3), Lebesgue(zerosum(3)))
 % Residual scale
 sigma ~ Exponential(1)
 
