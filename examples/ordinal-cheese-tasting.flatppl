@@ -18,6 +18,12 @@ are declared on `ordered(8)`, the set of strictly increasing real 8-vectors.
 Additive D is the reference category, $\eta_D = 0$, so `effect` holds
 $\eta_A, \eta_B, \eta_C$. Each additive's counts are one multinomial draw of
 its 52 ratings.
+
+The priors are weakly informative on the logit scale: independent
+$\mathrm{Normal}(0, 5)$ on every cut point, restricted to the ordered set, and
+on every additive location. The cut-point prior is a weighted Lebesgue measure
+on `ordered(8)`: its density is the product of the eight normal densities where
+the cut points increase, and zero elsewhere. It is not normalized.
 %%%
 flatppl_compat = "0.1"
 
@@ -59,3 +65,15 @@ L_input = record(
 
 % Log-likelihood at the preset point
 logL_input = logdensityof(L, L_input)
+
+% Normal(0, 5) on each cut point, restricted to increasing cut points
+cuts_prior = logweighted(fn(logdensityof(iid(Normal(0, 5), 8), _)), Lebesgue(support = ordered(8)))
+% Normal(0, 5) on each additive location
+effect_prior = iid(Normal(0, 5), 3)
+
+Pi_prior = joint(cuts = cuts_prior, effect = effect_prior)
+
+Pi_post = bayesupdate(L, Pi_prior)
+
+% Unnormalized log-posterior at the preset point
+logpost_input = logdensityof(Pi_post, L_input)

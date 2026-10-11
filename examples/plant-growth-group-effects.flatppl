@@ -13,6 +13,13 @@ The model $\mu + e_g$ is unchanged if a constant moves from $\mu$ into every
 $e_g$. Declaring the effects on `zerosum(3)`, the real 3-vectors with
 $e_1 + e_2 + e_3 = 0$, removes that freedom: $\mu$ is the grand mean of the
 three group means and $e_g$ is each group's departure from it.
+
+The priors are weakly informative: $\mu \sim \mathrm{Normal}(5, 2)$,
+$\sigma \sim \mathrm{Exponential}(1)$, and independent $\mathrm{Normal}(0, 1)$
+on the effects, restricted to the zero-sum set. The effects prior is a weighted
+Lebesgue measure on `zerosum(3)`. Its reference measure is the coordinate
+measure of $e_1, e_2$, with $e_3 = -e_1 - e_2$, so its density at a zero-sum
+point is the product of the three normal densities.
 %%%
 flatppl_compat = "0.1"
 
@@ -42,3 +49,13 @@ L_input = record(mu = 5.073, effects = [-0.041, -0.412, 0.453], sigma = 0.6)
 
 % Log-likelihood at the preset point
 logL_input = logdensityof(L, L_input)
+
+% Normal(0, 1) on each group effect, restricted to the zero-sum set
+effects_prior = logweighted(fn(logdensityof(iid(Normal(0, 1), 3), _)), Lebesgue(support = zerosum(3)))
+
+Pi_prior = joint(mu = Normal(5, 2), effects = effects_prior, sigma = Exponential(1))
+
+Pi_post = bayesupdate(L, Pi_prior)
+
+% Unnormalized log-posterior at the preset point
+logpost_input = logdensityof(Pi_post, L_input)
