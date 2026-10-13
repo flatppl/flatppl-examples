@@ -1,3 +1,4 @@
 [
-  { "path": "examples", "title": "Examples" }
+  { "path": "examples", "title": "Examples" },
+  { "path": "posteriordb", "title": "PosteriorDB" }
 ]

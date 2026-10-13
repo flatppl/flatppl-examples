@@ -44,3 +44,15 @@ jobs:
           outputs = logdensityof(m.dist, point)
           EOF
           flatppl stablehlo examples/minimal-query.flatppl --numerical-integrals -o "$RUNNER_TEMP/minimal.mlir"
+      - name: Compile every posteriorDB density
+        run: |
+          trap 'rm -f posteriordb/.ci-query.flatppl' EXIT
+          for model in posteriordb/*.flatppl; do
+            cat > posteriordb/.ci-query.flatppl <<EOF
+          m = load_module("$(basename "$model")")
+          point = elementof(m.Pi_post_domain)
+          inputs = point
+          outputs = logdensityof(m.Pi_post, point)
+          EOF
+            flatppl stablehlo posteriordb/.ci-query.flatppl -o "$RUNNER_TEMP/posteriordb.mlir"
+          done
