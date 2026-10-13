@@ -2,6 +2,10 @@
 
 Examples of FlatPPL, the Flat Portable Probabilistic Language.
 
+- [`examples/`](examples): introductory and applied models.
+- [`posteriordb/`](posteriordb): ten posteriorDB models with separate data files
+  and independent Stan density checks.
+
 ## About FlatPPL
 
 FlatPPL is a minimal, inference-agnostic stochastic language for specifying
