@@ -1,4 +1,8 @@
 [
   { "path": "examples", "title": "Examples" },
-  { "path": "posteriordb", "title": "PosteriorDB" }
+  {
+    "path": "posteriordb",
+    "title": "PosteriorDB",
+    "exclude": ["GLMM_Poisson_model.flatppl", "Mh_model.flatppl"]
+  }
 ]
