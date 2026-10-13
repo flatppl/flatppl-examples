@@ -5,6 +5,9 @@ FlatPPL ports of ten models from
 The original JSON files live in [`data/`](data). Each model loads its data
 relative to its own file with `load_data`.
 
+The playground lists the eight models with at most ten parameters. The larger
+`GLMM_Poisson_model` and `Mh_model` remain available in this repository.
+
 | Model | Description | Parameters |
 |---|---|---:|
 | [Rate_1_model](Rate_1_model.flatppl) | Binomial rate | 1 |
