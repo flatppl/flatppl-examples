@@ -35,19 +35,22 @@ target and both coordinate transforms for BlackJAX, including the Jacobian
 inside StableHLO. The centered eight-schools model has funnel geometry.
 The supplied starting points do not establish sampler convergence.
 
-In the playground, select RAM, slice or ESS for `GLM_Poisson_model`,
-`kidscore_interaction`, and `Mh_model`. Their `Flat` priors have no sampler,
-so prior-sampling methods such as IS, AMIS and SMC refuse them.
+In the playground, select RAM, slice or ESS for `kidscore_interaction`.
+Its unbounded `Flat` coefficient priors have no sampler, so prior-sampling
+methods such as IS, AMIS and SMC refuse it. The other nine models have
+sampleable priors, including Uniform priors on fixed finite intervals.
 
-These preserve the original posteriorDB targets, including bounded flat
-priors and the GP covariance's `sigma` diagonal term. They do not adopt
+These preserve the original posteriorDB posterior laws, including the GP
+covariance's `sigma` diagonal term. They do not adopt
 Wren's additional Kidscore/GLMM priors or its wider GLMM coefficient bound.
 
 FlatPPL normalizes the half-Normal and half-Cauchy priors. The resulting
 log density exceeds Stan's by `log(2)` for `arK`, `blr`,
 `eight_schools_centered`, and `kidscore_interaction`, and by `2*log(2)` for
-`gp_regr`. These fixed offsets leave the posterior laws and gradients
-unchanged. All other offsets are zero.
+`gp_regr`. Normalizing the bounded Uniform priors adds
+`-log(40) - 3*log(20)` for `GLM_Poisson_model` and `-log(5)` for `Mh_model`.
+These fixed offsets leave the posterior laws and gradients unchanged.
+All other offsets are zero.
 
 The [testsuite corpus](https://github.com/flatppl/flatppl-testsuite/tree/main/corpora/posteriordb)
 holds original Stan sources and independent density/gradient checks at
