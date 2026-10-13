@@ -19,9 +19,22 @@ jobs:
         run: cargo install --git https://github.com/flatppl/flatppl-rust --locked --features stablehlo flatppl-cli
       - name: Infer every example
         run: |
-          for model in examples/*.flatppl; do
-            flatppl infer "$model" "$RUNNER_TEMP/example.flatpir"
-          done
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+
+          for collection in json.loads(Path("collections.json").read_text()):
+              root = Path(collection["path"])
+              if not root.is_dir():
+                  raise SystemExit(f"Missing collection directory: {root}")
+              for model in sorted(root.rglob("*.flatppl")):
+                  subprocess.run(
+                      ["flatppl", "infer", str(model), str(Path(os.environ["RUNNER_TEMP"]) / "example.flatpir")],
+                      check=True,
+                  )
+          PY
       - name: Compile the predictive density with its shared latent variance
         run: |
           cat > examples/minimal-query.flatppl <<'EOF'

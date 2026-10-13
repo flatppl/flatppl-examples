@@ -9,6 +9,26 @@ probabilistic models.
 
 ## Writing examples
 
+The playground publishes the directories listed in `collections.json`, in list
+order. Each record has a top-level directory `path` and a display `title`.
+Keep existing paths stable because playground links use the full file path.
+
+Add a collection by creating a peer directory and adding its record to the list:
+
+```json
+{ "path": "posteriordb", "title": "PosteriorDB" }
+```
+
+Use letters, digits, underscores, and hyphens for collection paths, starting
+with a letter or digit. Paths must be unique without regard to case. Keep the
+`examples` entry. The names `demo`, `test-cases`, `new`, `user`, `vendor`, and
+`theme` belong to the playground and cannot name collections.
+
+The sidebar mirrors nested folders. The build copies support files alongside
+models, but lists only `.flatppl`, `.md`, `.markdown`, `.hs3.json`, and
+`.pyhf.json` files. Unlisted repository directories are not published.
+New content appears after the next playground build and deployment.
+
 Doc-comments render in the viewer and in the math view, so they follow one
 style:
 
