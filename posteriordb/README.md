@@ -35,9 +35,9 @@ target and both coordinate transforms for BlackJAX, including the Jacobian
 inside StableHLO. The centered eight-schools model has funnel geometry.
 The supplied starting points do not establish sampler convergence.
 
-In the playground, select RAM or another MCMC sampler for `GLM_Poisson_model`,
+In the playground, select RAM, slice or ESS for `GLM_Poisson_model`,
 `kidscore_interaction`, and `Mh_model`. Their `Flat` priors have no sampler,
-so prior-sampling methods such as IS and AMIS refuse them.
+so prior-sampling methods such as IS, AMIS and SMC refuse them.
 
 These preserve the original posteriorDB targets, including bounded flat
 priors and the GP covariance's `sigma` diagonal term. They do not adopt
