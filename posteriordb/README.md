@@ -45,7 +45,9 @@ inside StableHLO. The centered eight-schools model has funnel geometry.
 The supplied starting points do not establish sampler convergence.
 
 In the playground, select RAM, slice or ESS for `kidscore_interaction`.
-Its unbounded `Flat` coefficient priors have no sampler, so prior-sampling
+Its unbounded coefficient prior is a Lebesgue measure joined with the proper
+scale prior. This leaves the posterior unchanged and keeps `lawof` confined
+to the proper prior. The coefficient prior has no sampler, so prior-sampling
 methods such as IS, AMIS and SMC refuse it. The other fifteen models have
 sampleable priors, including Uniform priors on fixed finite intervals.
 
