@@ -9,7 +9,7 @@ f_sqrt = functionof(b)
 
 mu = elementof(reals)
 sigma2 ~ Exponential(1.0)
-sigma = f_sqrt(sigma2)
+sigma = f_sqrt(a = sigma2)
 
 x ~ iid(Normal(mu = mu, sigma = sigma), 3)
 kernel = kernelof(x, mu = mu)
