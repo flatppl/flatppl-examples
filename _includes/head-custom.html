@@ -1,0 +1,13 @@
+<link rel="icon" href="{{ '/assets/favicon.ico' | relative_url }}" sizes="any">
+<link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+<style>
+  .markdown-body > h1:first-child a::before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    vertical-align: middle;
+    background: center / contain no-repeat url("{{ '/assets/logo.svg' | relative_url }}");
+  }
+</style>
