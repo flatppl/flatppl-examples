@@ -1,12 +1,13 @@
 # posteriorDB
 
-FlatPPL ports of sixteen models from
+FlatPPL ports of twenty-two models from
 [posteriorDB revision 91027f9](https://github.com/stan-dev/posteriordb/tree/91027f9cdd13b7e76283fec3f2898f59d4b83ec4).
 The original JSON files live in [`data/`](data). Each model loads its data
 relative to its own file with `load_data`.
 
-The playground lists the fourteen models with at most ten parameters. The larger
-`GLMM_Poisson_model` and `Mh_model` remain available in this repository.
+The playground lists the seventeen models with at most ten parameters. The larger
+`GLMM_Poisson_model`, `Mh_model`, `gp_pois_regr`, `irt_2pl` and
+`radon_variable_intercept_slope_noncentered` remain available in this repository.
 
 | Model | Description | Parameters |
 |---|---|---:|
@@ -26,6 +27,12 @@ The playground lists the fourteen models with at most ten parameters. The larger
 | [Mb_model](Mb_model.flatppl) | Capture-recapture with a behavioral response | 3 |
 | [arma11](arma11.flatppl) | ARMA(1,1) with observed history | 4 |
 | [Survey_model](Survey_model.flatppl) | Binomial surveys with a shared, marginalized population size | 1 |
+| [wells_dist](wells_dist.flatppl) | Logistic regression on distance | 2 |
+| [dugongs_model](dugongs_model.flatppl) | Nonlinear growth curve | 4 |
+| [hmm_example](hmm_example.flatppl) | Two-state hidden Markov model, forward filter | 6 |
+| [gp_pois_regr](gp_pois_regr.flatppl) | Latent Gaussian process with Poisson counts | 13 |
+| [irt_2pl](irt_2pl.flatppl) | Two-parameter item response theory | 144 |
+| [radon_variable_intercept_slope_noncentered](radon_variable_intercept_slope_noncentered.flatppl) | Varying intercepts and slopes by county | 175 |
 
 Every model exposes `Pi_prior`, `Pi_post`, `Pi_post_domain`, and a starting
 point `Pi_post_input`. For example, save this query beside the models:
@@ -44,12 +51,15 @@ target and both coordinate transforms for BlackJAX, including the Jacobian
 inside StableHLO. The centered eight-schools model has funnel geometry.
 The supplied starting points do not establish sampler convergence.
 
-In the playground, select RAM, slice or ESS for `kidscore_interaction`.
-Its unbounded coefficient prior is a Lebesgue measure joined with the proper
-scale prior. This leaves the posterior unchanged and keeps `lawof` confined
-to the proper prior. The coefficient prior has no sampler, so prior-sampling
-methods such as IS, AMIS and SMC refuse it. The other fifteen models have
-sampleable priors, including Uniform priors on fixed finite intervals.
+In the playground, select RAM, slice or ESS for `kidscore_interaction`,
+`wells_dist` and `hmm_example`. The first two have unbounded coefficient
+priors: a Lebesgue measure, joined with the proper scale prior for
+Kidscore. This leaves the posterior unchanged and keeps `lawof` confined to
+the proper priors. The means of `hmm_example` keep Stan's truncated Normal
+densities without renormalization. These priors have no sampler, so
+prior-sampling methods such as IS, AMIS and SMC refuse them. The other
+nineteen models have sampleable priors, including Uniform priors on fixed
+finite intervals.
 
 AMIS works well for the Gaussian mixture. RAM can remain in a secondary mode
 from prior initialization, so compare chains before trusting its summaries.
@@ -60,13 +70,19 @@ Wren's additional Kidscore/GLMM priors or its wider GLMM coefficient bound.
 
 FlatPPL normalizes the half-Normal and half-Cauchy priors. The resulting
 log density exceeds Stan's by `log(2)` for `arK`, `blr`,
-`eight_schools_centered`, `kidscore_interaction`, and `arma11`, and by `2*log(2)` for
-`gp_regr`. Normalizing the bounded Uniform priors adds
+`eight_schools_centered`, `kidscore_interaction`, `arma11`, and `gp_pois_regr`, by `2*log(2)` for
+`gp_regr`, and by `3*log(2)` for `irt_2pl` and
+`radon_variable_intercept_slope_noncentered`. Normalizing the bounded Uniform priors adds
 `-log(40) - 3*log(20)` for `GLM_Poisson_model` and `-log(5)` for `Mh_model`.
 The ordered mixture adds `3*log(2)` from its ordered means and two half-Normal scales.
+Stan starts the `hmm_example` forward recursion with weight one per state.
+Its uniform initial distribution adds `-log(2)`.
 These fixed offsets leave the posterior laws and gradients unchanged.
 All other offsets are zero.
 
 The [testsuite corpus](https://github.com/flatppl/flatppl-testsuite/tree/main/corpora/posteriordb)
 holds original Stan sources and independent density/gradient checks at
-three points per model. Data retain posteriorDB's [BSD license](LICENSE).
+three points per model. It omits `gp_pois_regr`: a jitter of `1e-10` on a
+nearly singular covariance makes its gradients depend on Cholesky roundoff,
+and float32 cannot represent the jitter. Data retain posteriorDB's
+[BSD license](LICENSE).
