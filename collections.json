@@ -6,6 +6,7 @@
     "exclude": [
       "GLMM_Poisson_model.flatppl",
       "Mh_model.flatppl",
+      "gp_pois_regr.flatppl",
       "irt_2pl.flatppl",
       "radon_variable_intercept_slope_noncentered.flatppl"
     ]

@@ -1,12 +1,12 @@
 # posteriorDB
 
-FlatPPL ports of twenty-one models from
+FlatPPL ports of twenty-two models from
 [posteriorDB revision 91027f9](https://github.com/stan-dev/posteriordb/tree/91027f9cdd13b7e76283fec3f2898f59d4b83ec4).
 The original JSON files live in [`data/`](data). Each model loads its data
 relative to its own file with `load_data`.
 
 The playground lists the seventeen models with at most ten parameters. The larger
-`GLMM_Poisson_model`, `Mh_model`, `irt_2pl` and
+`GLMM_Poisson_model`, `Mh_model`, `gp_pois_regr`, `irt_2pl` and
 `radon_variable_intercept_slope_noncentered` remain available in this repository.
 
 | Model | Description | Parameters |
@@ -30,6 +30,7 @@ The playground lists the seventeen models with at most ten parameters. The large
 | [wells_dist](wells_dist.flatppl) | Logistic regression on distance | 2 |
 | [dugongs_model](dugongs_model.flatppl) | Nonlinear growth curve | 4 |
 | [hmm_example](hmm_example.flatppl) | Two-state hidden Markov model, forward filter | 6 |
+| [gp_pois_regr](gp_pois_regr.flatppl) | Latent Gaussian process with Poisson counts | 13 |
 | [irt_2pl](irt_2pl.flatppl) | Two-parameter item response theory | 144 |
 | [radon_variable_intercept_slope_noncentered](radon_variable_intercept_slope_noncentered.flatppl) | Varying intercepts and slopes by county | 175 |
 
@@ -57,7 +58,7 @@ Kidscore. This leaves the posterior unchanged and keeps `lawof` confined to
 the proper priors. The means of `hmm_example` keep Stan's truncated Normal
 densities without renormalization. These priors have no sampler, so
 prior-sampling methods such as IS, AMIS and SMC refuse them. The other
-eighteen models have sampleable priors, including Uniform priors on fixed
+nineteen models have sampleable priors, including Uniform priors on fixed
 finite intervals.
 
 AMIS works well for the Gaussian mixture. RAM can remain in a secondary mode
@@ -69,7 +70,7 @@ Wren's additional Kidscore/GLMM priors or its wider GLMM coefficient bound.
 
 FlatPPL normalizes the half-Normal and half-Cauchy priors. The resulting
 log density exceeds Stan's by `log(2)` for `arK`, `blr`,
-`eight_schools_centered`, `kidscore_interaction`, and `arma11`, by `2*log(2)` for
+`eight_schools_centered`, `kidscore_interaction`, `arma11`, and `gp_pois_regr`, by `2*log(2)` for
 `gp_regr`, and by `3*log(2)` for `irt_2pl` and
 `radon_variable_intercept_slope_noncentered`. Normalizing the bounded Uniform priors adds
 `-log(40) - 3*log(20)` for `GLM_Poisson_model` and `-log(5)` for `Mh_model`.
