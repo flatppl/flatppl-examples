@@ -82,4 +82,7 @@ All other offsets are zero.
 
 The [testsuite corpus](https://github.com/flatppl/flatppl-testsuite/tree/main/corpora/posteriordb)
 holds original Stan sources and independent density/gradient checks at
-three points per model. Data retain posteriorDB's [BSD license](LICENSE).
+three points per model. It omits `gp_pois_regr`: a jitter of `1e-10` on a
+nearly singular covariance makes its gradients depend on Cholesky roundoff,
+and float32 cannot represent the jitter. Data retain posteriorDB's
+[BSD license](LICENSE).
