@@ -1,0 +1,21 @@
+%%%
+# Regression from table columns
+
+Each row is one observation. Stack the two predictor columns into a design
+matrix, then draw the response vector from the regression module.
+The posterior infers an intercept, two slopes, and the residual scale.
+%%%
+flatppl_compat = "0.1"
+reg = standard_module("regression", "0.1")
+data = table(x1 = [0.0, 1.0, 0.0, 1.0], x2 = [0.0, 0.0, 1.0, 1.0], response = [1.0, 2.0, 0.0, 1.0])
+% Four observation rows, two predictor columns
+x = colstack([data.x1, data.x2])
+alpha ~ Normal(0.0, 2.0)
+beta ~ iid(Normal(0.0, 2.0), 2)
+sigma ~ LogNormal(0.0, 0.5)
+y ~ reg.NormalGLM(x, alpha, beta, sigma)
+Pi_prior = lawof(record(alpha = alpha, beta = beta, sigma = sigma))
+K_model = kernelof(record(y = y), alpha = alpha, beta = beta, sigma = sigma)
+L = likelihoodof(K_model, record(y = data.response))
+Pi_post = bayesupdate(L, Pi_prior)
+L_input = record(alpha = 1.0, beta = [1.0, -1.0], sigma = 0.5)
