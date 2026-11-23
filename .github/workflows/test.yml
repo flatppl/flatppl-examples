@@ -17,6 +17,10 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Build the current compiler
         run: cargo install --git https://github.com/flatppl/flatppl-rust --locked --features stablehlo flatppl-cli
+      - name: Prepare the pinned community ODE module
+        run: |
+          echo 'ode = load_module("https://raw.githubusercontent.com/flatppl-community/flatppl-numerics-ode/8f9536fcc6724e14912575dc77e2bd95b95d6f3a/main.flatppl")' > "$RUNNER_TEMP/ode.flatppl"
+          FLATPPL_TRUST=1 flatppl prepare "$RUNNER_TEMP/ode.flatppl"
       - name: Infer every example
         run: |
           python3 - <<'PY'
