@@ -1,11 +1,11 @@
 # posteriorDB
 
-FlatPPL ports of twenty-two models from
+FlatPPL ports of twenty-four models from
 [posteriorDB revision 91027f9](https://github.com/stan-dev/posteriordb/tree/91027f9cdd13b7e76283fec3f2898f59d4b83ec4).
 The original JSON files live in [`data/`](data). Each model loads its data
 relative to its own file with `load_data`.
 
-The playground lists the seventeen models with at most ten parameters. The larger
+The playground lists the nineteen models with at most ten parameters. The larger
 `GLMM_Poisson_model`, `Mh_model`, `gp_pois_regr`, `irt_2pl` and
 `radon_variable_intercept_slope_noncentered` remain available in this repository.
 
@@ -33,6 +33,8 @@ The playground lists the seventeen models with at most ten parameters. The large
 | [gp_pois_regr](gp_pois_regr.flatppl) | Latent Gaussian process with Poisson counts | 13 |
 | [irt_2pl](irt_2pl.flatppl) | Two-parameter item response theory | 144 |
 | [radon_variable_intercept_slope_noncentered](radon_variable_intercept_slope_noncentered.flatppl) | Varying intercepts and slopes by county | 175 |
+| [lotka_volterra](lotka_volterra.flatppl) | Hudson's Bay hare and lynx populations | 8 |
+| [one_comp_mm_elim_abs](one_comp_mm_elim_abs.flatppl) | Absorption and saturating elimination in one compartment | 4 |
 
 Every model exposes `Pi_prior`, `Pi_post`, `Pi_post_domain`, and a starting
 point `Pi_post_input`. For example, save this query beside the models:
@@ -48,15 +50,21 @@ Compile the query with `flatppl stablehlo query.flatppl`, or load it through
 [flatppl-python](https://flatppl.org/flatppl-python/).
 `query.compile_transformed(logdensity=True)` supplies the unconstrained
 target and both coordinate transforms for BlackJAX, including the Jacobian
-inside StableHLO. The centered eight-schools model has funnel geometry.
+inside StableHLO. For either ODE example, run `flatppl prepare <model.flatppl>`
+once to cache its pinned community solver. Both models subdivide each
+observation interval and use the seventh-order Verner method. Increase
+`substeps` to check the integration accuracy at other parameter values.
+The centered eight-schools model has funnel geometry.
 The supplied starting points do not establish sampler convergence.
 
 In the playground, select RAM, slice or ESS for `kidscore_interaction`,
-`wells_dist` and `hmm_example`. The first two have unbounded coefficient
-priors: a Lebesgue measure, joined with the proper scale prior for
-Kidscore. This leaves the posterior unchanged and keeps `lawof` confined to
-the proper priors. The means of `hmm_example` keep Stan's truncated Normal
-densities without renormalization. These priors have no sampler, so
+`wells_dist`, `hmm_example`, `lotka_volterra` and `one_comp_mm_elim_abs`.
+The first two use Lebesgue measure for unbounded coefficient priors, joined
+with the proper scale prior for Kidscore. This leaves the posterior unchanged
+and keeps `lawof` confined to the proper priors. The means of `hmm_example` and the positive rates of
+`lotka_volterra` retain Stan's unnormalized truncated Normal densities.
+The four positive parameters of `one_comp_mm_elim_abs` retain Stan's Cauchy
+densities. These priors have no sampler, so
 prior-sampling methods such as IS, AMIS and SMC refuse them. The other
 nineteen models have sampleable priors, including Uniform priors on fixed
 finite intervals.
